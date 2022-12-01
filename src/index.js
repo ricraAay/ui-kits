@@ -4,9 +4,9 @@ import * as components from './components'
 const VCLibrary = {
   install(app) {
     // Авто импорт всех компонентов
-    for (const componentKey in components) {
-      app.use((components)[componentKey])
-    }
+    Object
+      .keys(components)
+      .forEach(name => app.use(components[name]))
   }
 }
 

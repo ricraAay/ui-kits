@@ -40,7 +40,7 @@ const vuePluginConfig = {
   }
 }
 
-let config = [
+const config = [
   {
     input: entries,
     external: ['vue'],
@@ -78,8 +78,7 @@ let config = [
   }
 ]
 
-config = config.filter((c) => !!c.output.file)
-config.forEach((c) => {
+config.filter((c) => !!c.output.file).forEach((c) => {
   c.output.file = c.output.file.replace(/.m?js/g, r => `.min${r}`)
   c.plugins.push(terser({
     output: {
