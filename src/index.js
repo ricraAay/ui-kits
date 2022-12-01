@@ -3,14 +3,14 @@ import * as components from './components'
 
 const VCLibrary = {
   install(app) {
-    // Auto import all components
+    // Авто импорт всех компонентов
     for (const componentKey in components) {
-        app.use((components)[componentKey])
+      app.use((components)[componentKey])
     }
   }
 }
 
 export default VCLibrary
 
-// export all components as vue plugin
+// Экспорт всех компонентов
 export * from './components'

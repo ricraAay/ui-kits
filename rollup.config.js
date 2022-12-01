@@ -14,30 +14,30 @@ const baseFolderPath = './src/components/'
 const banner = text.replace('${version}', packageInfo.version)
 
 const components = fs
-    .readdirSync(baseFolderPath)
-    .filter((f) =>
-        fs.statSync(path.join(baseFolderPath, f)).isDirectory()
-    )
+  .readdirSync(baseFolderPath)
+  .filter((f) =>
+    fs.statSync(path.join(baseFolderPath, f)).isDirectory()
+  )
 
 const entries = {
-    'index': './src/index.js',
-    ...components.reduce((obj, name) => {
-        obj[name] = (baseFolderPath + name)
-        return obj
-    }, {})
+  'index': './src/index.js',
+  ...components.reduce((obj, name) => {
+    obj[name] = (baseFolderPath + name)
+    return obj
+  }, {})
 }
 
 const babelOptions = {
-    babelHelpers: 'bundled'
+  babelHelpers: 'bundled'
 }
 
 const vuePluginConfig = {
-    template: {
-        isProduction: true,
-        compilerOptions: {
-            whitespace: 'condense'
-        }
+  template: {
+    isProduction: true,
+    compilerOptions: {
+      whitespace: 'condense'
     }
+  }
 }
 
 let config = [
@@ -51,31 +51,31 @@ let config = [
       chunkFileNames: '[name]-[hash].mjs',
     },
     plugins: [
-        node({
-            extensions: ['.vue', '.js']
-        }),
-        vue(vuePluginConfig),
-        babel(babelOptions),
-        cjs()
+      node({
+        extensions: ['.vue', '.js']
+      }),
+      vue(vuePluginConfig),
+      babel(babelOptions),
+      cjs()
     ],
   },
   {
     input: 'src/index.js',
     external: ['vue'],
     output: {
-        format: 'esm',
-        file: 'dist/vc-library.mjs',
-        banner: banner
+      format: 'esm',
+      file: 'dist/vc-library.mjs',
+      banner: banner
     },
     plugins: [
-        node({
-            extensions: ['.vue', '.js']
-        }),
-        vue(vuePluginConfig),
-        babel(babelOptions),
-        cjs()
+      node({
+        extensions: ['.vue', '.js']
+      }),
+      vue(vuePluginConfig),
+      babel(babelOptions),
+      cjs()
     ]
-}
+  }
 ]
 
 config = config.filter((c) => !!c.output.file)
@@ -83,10 +83,9 @@ config.forEach((c) => {
   c.output.file = c.output.file.replace(/.m?js/g, r => `.min${r}`)
   c.plugins.push(terser({
     output: {
-        comments: '/^!/'
+      comments: '/^!/'
     }
   }))
 })
-
 
 export default config
